@@ -1,0 +1,95 @@
+set nocompatible
+
+" LEADERS
+let mapleader = ","
+let maplocalleader = ",,"
+
+" PERL to PROLOG
+let g:filetype_pl="prolog"
+
+" KEY MAPPINGS
+noremap <silent> <C-H> <C-W>h
+noremap <silent> <C-L> <C-W>l
+noremap <silent> <C-J> <C-W>j
+noremap <silent> <C-K> <C-W>k
+
+"" Normal mode
+nnoremap H ^
+nnoremap L $
+nnoremap - ddp
+nnoremap _ ddkP
+nnoremap <silent> <Up> <NOP>
+nnoremap <silent> <Right> <NOP>
+nnoremap <silent> <Down> <NOP>
+nnoremap <silent> <Left> <NOP>
+nnoremap <silent> <Tab> :bnext<CR>
+
+"" Insert mode
+inoremap jk <ESC>
+inoremap <C-U> <ESC>viwU
+inoremap <ESC> <NOP>
+
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+noremap <C-N> :NERDTreeToggle<CR>
+
+"========================================"
+
+" PLUGINS
+call plug#begin('~/.vim/plugged')
+    Plug 'scrooloose/nerdtree'
+    Plug 'LogtalkDotOrg/logtalk3'
+    Plug 'tpope/vim-markdown'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-fugitive'
+    Plug 'octol/vim-cpp-enhanced-highlight'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'elzr/vim-json'
+call plug#end()
+
+"Airline Config
+set laststatus=2
+let g:airline_powerline_fonts=1
+
+"========================================"
+
+"UI CONFIG
+set number
+set numberwidth=1
+set showcmd
+set cursorline
+set wildmenu
+set lazyredraw
+set showmatch
+
+" SEARCHING
+set incsearch
+set hlsearch
+nnoremap <leader><space> :nohlsearch<CR>
+
+" TAB SETTINGS
+set smarttab
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+" HIGHLIGHTING
+syntax enable
+set background=dark
+colorscheme solarized
+
+" SPLITS
+set splitright
+
+" FUNCTIONS
+function! s:DiffWithSaved()
+    let filetype=&ft
+    diffthis
+    vnew | r # | normal! 1Gdd
+    diffthis
+    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
